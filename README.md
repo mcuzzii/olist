@@ -14,7 +14,7 @@ This creates the database schemas `staging` and `analytics`, respectively for th
 
 ## Other Commands
 
-Running `make pipeline` is only efficient for the first time. This command alone downloads the raw dataset from Kaggle, starts a PostgreSQL database accessible through `localhost:5432` and a client for running the `psql` scripts, and executes the scripts. These tasks can be run individually:
+Running `make pipeline` is only efficient for the first time. This command alone downloads the raw dataset from Kaggle, starts a PostgreSQL client and database accessible through `localhost:5432`, and executes the `psql` scripts. These tasks can be run individually:
 
 - `make download` handles the raw data download (persisting in `data/raw/`),
 - `make run` sets up the PostgreSQL database and client and starts the session,
