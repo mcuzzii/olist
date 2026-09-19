@@ -14,18 +14,14 @@ This creates the database schemas `staging` and `analytics`, respectively for th
 
 ## Other Commands
 
-Running `make pipeline` is only efficient for the first time. Subsequent reruns of the SQL pipeline can be done by running `make execute` alone.
-
-More specifically, `make pipeline` alone downloads the raw dataset from Kaggle, starts a PostgreSQL database accessible through `localhost:5432` and a client for running the `psql` scripts, and executes the scripts. These tasks can be run individually:
+Running `make pipeline` is only efficient for the first time. This command alone downloads the raw dataset from Kaggle, starts a PostgreSQL database accessible through `localhost:5432` and a client for running the `psql` scripts, and executes the scripts. These tasks can be run individually:
 
 - `make download` handles the raw data download (persisting in `data/raw/`),
 - `make run` sets up the PostgreSQL database and client and starts the session,
 - `make execute` runs the scripts.
 
-The initialization steps (`download` and `run`) need not be repeated within a session. Since `make download` persists the data locally, new sessions do not need to run `make download`.
+The initialization steps (`download` and `run`) need not be repeated within a session. Since `make download` persists the data locally, it further need not be repeated even across sessions, only unless the data is modified in `data/raw/`. Within a session, subsequent reruns of the SQL pipeline can be done by running `make execute` alone.
 
-For experimentation, debugging, and inspection of the database schemas, `make test` runs a custom script that can be edited to run any sequence of SQL commands. The script can be found and edited in `sql/test/scratch.sql`.
+Running `make stop` ends the session but does not delete the associated Docker volumes. Running `make clean` completes this further step. To start a new session, running `make run` alone suffices.
 
-Note that `make execute` and `make test` will fail if run without running the initialization steps.
-
-Running `make stop` ends the session but does not delete the associated Docker volumes. Running `make clean` completes this further step. To start a new session, `make run` suffices.
+For experimentation, debugging, and inspection of the database schemas, `make test` runs a custom script that can be edited to run any sequence of SQL commands. The script can be found and edited in `sql/test/scratch.sql`. Note that `make test`, as well as `make execute` for that matter, will fail without starting a session.
