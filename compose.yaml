@@ -1,0 +1,86 @@
+services:
+
+  db:
+    image: postgres:17
+
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+    ports:
+      - "127.0.0.1:5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./data/raw:/data/raw:ro
+
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U \"$${POSTGRES_USER}\" -d \"$${POSTGRES_DB}\""
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+
+  downloader:
+    build:
+      context: ./docker/downloader
+
+    environment:
+      KAGGLE_API_TOKEN: ${KAGGLE_API_TOKEN:-}
+
+    volumes:
+      - ./data/raw:/data/raw
+
+    command:
+      - datasets
+      - download
+      - "${KAGGLE_DATASET}"
+      - --path
+      - /data/raw
+      - --unzip
+
+    depends_on:
+      db:
+        condition: service_healthy
+  
+
+  sql-runner:
+    build:
+      context: ./docker/sql-runner
+
+    environment:
+      PGHOST: db
+      PGPORT: 5432
+      PGDATABASE: ${POSTGRES_DB}
+      PGUSER: ${POSTGRES_USER}
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+
+    volumes:
+      - ./sql:/sql:ro
+      - raw_data:/data/raw:ro
+
+    depends_on:
+      db:
+        condition: service_healthy
+
+    command:
+      - /bin/bash
+      - -c
+      - |
+        set -e
+        echo "Running SQL pipeline..."
+        for file in /sql/*.sql; do
+          echo "Executing $$file..."
+          psql -v ON_ERROR_STOP=1 -f "$$file"
+        done
+        echo "SQL pipeline completed successfully."
+
+
+volumes:
+  postgres_data:
+  raw_data:
