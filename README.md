@@ -2,30 +2,30 @@
 
 This project features a SQL pipeline and a Tableau dashboard.
 
-## Installation
-
-In order to download the raw data source, run the following command only once.
-
-```
-docker compose --profile tools run --rm downloader
-```
-
-This downloads the raw data into `data/raw/`. There's no need to run this again for subsequent work sessions as long as no modifications are made to the download; otherwise, running the command again restores the data.
-
 ## Running the Pipeline
 
-To run the SQL pipeline itself, run the following command.
+The entire SQL pipeline can be run with the following command.
 
 ```
-docker compose run --rm sql-runner
+make pipeline
 ```
 
-The pipeline creates both `staging` and `analytics` schemas in the local PostgreSQL server accessible through `localhost:5432`. The `staging` schema contains the raw data structure, whereas the `analytics` schema contains the transformed data for the Tableau dashboard.
+This creates the database schemas `staging` and `analytics`, respectively for the raw data and cleaned data for the Tableau dashboard.
 
-## Testing
+## Other Commands
 
-If you want to test your own scripts to inspect both `staging` and `analytics` schemas, you may write your own scripts in `sql/test/scratch.sql' and run the following command:
+Running `make pipeline` is only efficient for the first time. Subsequent reruns of the SQL pipeline can be done by running `make execute` alone.
 
-```
-docker compose run --rm sql-runner psql -v ON_ERROR_STOP=1 -f /sql/test/scratch.sql
-```
+More specifically, `make pipeline` alone downloads the raw dataset from Kaggle, starts a PostgreSQL database accessible through `localhost:5432` and a client for running the `psql` scripts, and executes the scripts. These tasks can be run individually:
+
+- `make download` handles the raw data download (persisting in `data/raw/`),
+- `make run` sets up the PostgreSQL database and client and starts the session,
+- `make execute` runs the scripts.
+
+The initialization steps (`download` and `run`) need not be repeated within a session. Since `make download` persists the data locally, new sessions do not need to run `make download`.
+
+For experimentation, debugging, and inspection of the database schemas, `make test` runs a custom script that can be edited to run any sequence of SQL commands. The script can be found and edited in `sql/test/scratch.sql`.
+
+Note that `make execute` and `make test` will fail if run without running the initialization steps.
+
+Running `make stop` ends the session but does not delete the associated Docker volumes. Running `make clean` completes this further step. To start a new session, `make run` suffices.

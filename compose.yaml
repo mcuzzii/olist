@@ -68,17 +68,7 @@ services:
       db:
         condition: service_healthy
 
-    command:
-      - /bin/bash
-      - -c
-      - |
-        set -e
-        echo "Running SQL pipeline..."
-        for file in /sql/*.sql; do
-          echo "Executing $$file..."
-          psql -v ON_ERROR_STOP=1 -f "$$file"
-        done
-        echo "SQL pipeline completed successfully."
+    command: ["sleep", "infinity"]
 
 
 volumes:
