@@ -62,7 +62,7 @@ services:
 
     volumes:
       - ./sql:/sql:ro
-      - raw_data:/data/raw:ro
+      - ./data/raw:/data/raw:ro
 
     depends_on:
       db:
@@ -73,4 +73,3 @@ services:
 
 volumes:
   postgres_data:
-  raw_data:
