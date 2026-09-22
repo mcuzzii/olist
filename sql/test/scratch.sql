@@ -1,4 +1,3 @@
 SELECT DISTINCT
-    geolocation_city
-FROM staging.geolocation
-WHERE geolocation_city LIKE '%porteirinha%'
+    *
+FROM staging.alterations_2014

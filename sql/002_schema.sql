@@ -51,7 +51,7 @@ CREATE TABLE staging.orders (
 
 CREATE TABLE staging.order_items (
     order_id TEXT,
-    order_item_id INTEGER,
+    order_item_id TEXT,
     product_id TEXT,
     seller_id TEXT,
     shipping_limit_date TIMESTAMP,
@@ -77,10 +77,193 @@ CREATE TABLE staging.order_reviews (
     review_answer_timestamp TIMESTAMP
 );
 
+CREATE TABLE staging.subdistricts (
+    "subdistrito-id" TEXT,
+    "subdistrito-nome" TEXT,
+    "distrito-id" TEXT,
+    "distrito-nome" TEXT,
+    "municipio-id" TEXT,
+    "municipio-nome" TEXT,
+    "microrregiao-id" TEXT,
+    "microrregiao-nome" TEXT,
+    "mesorregiao-id" TEXT,
+    "mesorregiao-nome" TEXT,
+    "regiao-imediata-id" TEXT,
+    "regiao-imediata-nome" TEXT,
+    "regiao-intermediaria-id" TEXT,
+    "regiao-intermediaria-nome" TEXT,
+    "UF-id" TEXT,
+    "UF-sigla" TEXT,
+    "UF-nome" TEXT,
+    "regiao-id" TEXT,
+    "regiao-sigla" TEXT,
+    "regiao-nome" TEXT
+);
+
+CREATE TABLE staging.districts (
+    "distrito-id" TEXT,
+    "distrito-nome" TEXT,
+    "municipio-id" TEXT,
+    "municipio-nome" TEXT,
+    "microrregiao-id" TEXT,
+    "microrregiao-nome" TEXT,
+    "mesorregiao-id" TEXT,
+    "mesorregiao-nome" TEXT,
+    "regiao-imediata-id" TEXT,
+    "regiao-imediata-nome" TEXT,
+    "regiao-intermediaria-id" TEXT,
+    "regiao-intermediaria-nome" TEXT,
+    "UF-id" TEXT,
+    "UF-sigla" TEXT,
+    "UF-nome" TEXT,
+    "regiao-id" TEXT,
+    "regiao-sigla" TEXT,
+    "regiao-nome" TEXT
+);
+
+CREATE TABLE staging.municipalities (
+    "municipio-id" TEXT,
+    "municipio-nome" TEXT,
+    "microrregiao-id" TEXT,
+    "microrregiao-nome" TEXT,
+    "mesorregiao-id" TEXT,
+    "mesorregiao-nome" TEXT,
+    "regiao-imediata-id" TEXT,
+    "regiao-imediata-nome" TEXT,
+    "regiao-intermediaria-id" TEXT,
+    "regiao-intermediaria-nome" TEXT,
+    "UF-id" TEXT,
+    "UF-sigla" TEXT,
+    "UF-nome" TEXT,
+    "regiao-id" TEXT,
+    "regiao-sigla" TEXT,
+    "regiao-nome" TEXT
+);
+
+CREATE TABLE staging.alterations_2014 (
+    UF TEXT,
+    UF_MUNIC TEXT,
+    MUNIC TEXT,
+    "Nome Anterior" TEXT,
+    "Nome Atual" TEXT,
+    "Norma Legal" TEXT,
+    "Data Norma" TEXT
+);
+
+CREATE TABLE staging.alterations_2017 (
+    UF TEXT,
+    MUN TEXT,
+    ALT TEXT,
+    NOME_ANTERIOR TEXT,
+    NOME_ATUAL TEXT,
+    "JUSTIFICATIVA DO EVENTO/ATO" TEXT,
+    LEI TEXT,
+    DATA_LEI TEXT,
+    DATA_OCORRÊNCIA TEXT
+);
+
+CREATE TABLE staging.alterations_2018 (
+    UF TEXT,
+    "COD.UF" TEXT,
+    "COD. MUN" TEXT,
+    ALT TEXT,
+    NOME_ANTERIOR TEXT,
+    NOME_ATUAL TEXT,
+    "JUSTIFICATIVA DO EVENTO/ATO" TEXT,
+    LEI TEXT,
+    DATA_LEI TIMESTAMP,
+    DATA_OCORRÊNCIA TIMESTAMP
+);
+
+CREATE TABLE staging.alterations_2019 (
+    COD_UF TEXT,
+    UF TEXT,
+    MUN TEXT,
+    ALT TEXT,
+    NOME_ANTERIOR TEXT,
+    NOME_ATUAL TEXT,
+    "JUSTIFICATIVA DO EVENTO/ATO" TEXT,
+    LEI TEXT,
+    DATA_LEI TIMESTAMP,
+    DATA_OCORRÊNCIA TEXT
+);
+
+CREATE TABLE staging.alterations_2020 (
+    UF TEXT,
+    MUN TEXT,
+    ALT TEXT,
+    NOME_ANTERIOR TEXT,
+    NOME_ATUAL TEXT,
+    "JUSTIFICATIVA DO EVENTO/ATO" TEXT,
+    LEI TEXT,
+    DATA_LEI TIMESTAMP,
+    DATA_OCORRÊNCIA TIMESTAMP
+);
+
+CREATE TABLE staging.alterations_2021 (
+    UF TEXT,
+    MUN TEXT,
+    ALT TEXT,
+    NOME_ANTERIOR TEXT,
+    NOME_ATUAL TEXT,
+    "JUSTIFICATIVA DO EVENTO/ATO" TEXT,
+    LEI TEXT,
+    DATA_LEI TIMESTAMP,
+    DATA_OCORRÊNCIA TIMESTAMP
+);
+
+CREATE TABLE staging.alterations_2022 (
+    UF TEXT,
+    MUN TEXT,
+    ALT TEXT,
+    NOME_ANTERIOR TEXT,
+    NOME_ATUAL TEXT,
+    "JUSTIFICATIVA DO EVENTO/ATO" TEXT,
+    LEI TEXT,
+    DATA_LEI TIMESTAMP,
+    DATA_OCORRÊNCIA TIMESTAMP
+);
+
+CREATE TABLE staging.alterations_2023 (
+    UF TEXT,
+    MUN TEXT,
+    ALT TEXT,
+    NOME_ANTERIOR TEXT,
+    NOME_ATUAL TEXT,
+    "JUSTIFICATIVA DO EVENTO/ATO" TEXT,
+    LEI TEXT,
+    DATA_LEI TIMESTAMP,
+    DATA_OCORRÊNCIA TIMESTAMP
+);
+
+CREATE TABLE staging.alterations_2024 (
+    UF TEXT,
+    MUN TEXT,
+    ALT TEXT,
+    NOME_ANTERIOR TEXT,
+    NOME_ATUAL TEXT,
+    "JUSTIFICATIVA DO EVENTO/ATO" TEXT,
+    LEI TEXT,
+    DATA_LEI TIMESTAMP,
+    DATA_OCORRÊNCIA TIMESTAMP
+);
+
+CREATE TABLE staging.alterations_2025 (
+    UF TEXT,
+    MUN TEXT,
+    ALT TEXT,
+    NOME_ANTERIOR TEXT,
+    NOME_ATUAL TEXT,
+    "JUSTIFICATIVA DO EVENTO/ATO" TEXT,
+    LEI TEXT,
+    DATA_LEI TEXT,
+    DATA_OCORRÊNCIA TIMESTAMP
+);
+
 CREATE TABLE analytics.zip_city_state (
     zip_city_state_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     zip_code_prefix TEXT,
     city TEXT,
     city_normalized TEXT,
     state TEXT
-)
+);

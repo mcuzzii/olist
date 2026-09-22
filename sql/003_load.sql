@@ -69,3 +69,107 @@ WITH (
     HEADER true,
     DELIMITER ','
 );
+
+COPY staging.subdistricts
+FROM '/data/raw/ibge_subdistricts.csv'
+WITH (
+    FORMAT csv,
+    HEADER true,
+    DELIMITER ','
+);
+
+COPY staging.districts
+FROM '/data/raw/ibge_districts.csv'
+WITH (
+    FORMAT csv,
+    HEADER true,
+    DELIMITER ','
+);
+
+COPY staging.municipalities
+FROM '/data/raw/ibge_municipalities.csv'
+WITH (
+    FORMAT csv,
+    HEADER true,
+    DELIMITER ','
+);
+
+COPY staging.alterations_2014
+FROM '/data/raw/alterations_2014.csv'
+WITH (
+    FORMAT csv,
+    HEADER true,
+    DELIMITER ','
+);
+
+COPY staging.alterations_2017
+FROM '/data/raw/alterations_2017.csv'
+WITH (
+    FORMAT csv,
+    HEADER true,
+    DELIMITER ','
+);
+
+COPY staging.alterations_2018
+FROM '/data/raw/alterations_2018.csv'
+WITH (
+    FORMAT csv,
+    HEADER true,
+    DELIMITER ','
+);
+
+COPY staging.alterations_2019
+FROM '/data/raw/alterations_2019.csv'
+WITH (
+    FORMAT csv,
+    HEADER true,
+    DELIMITER ','
+);
+
+COPY staging.alterations_2020
+FROM '/data/raw/alterations_2020.csv'
+WITH (
+    FORMAT csv,
+    HEADER true,
+    DELIMITER ','
+);
+
+COPY staging.alterations_2021
+FROM '/data/raw/alterations_2021.csv'
+WITH (
+    FORMAT csv,
+    HEADER true,
+    DELIMITER ','
+);
+
+COPY staging.alterations_2022
+FROM '/data/raw/alterations_2022.csv'
+WITH (
+    FORMAT csv,
+    HEADER true,
+    DELIMITER ','
+);
+
+COPY staging.alterations_2023
+FROM '/data/raw/alterations_2023.csv'
+WITH (
+    FORMAT csv,
+    HEADER true,
+    DELIMITER ','
+);
+
+COPY staging.alterations_2024
+FROM '/data/raw/alterations_2024.csv'
+WITH (
+    FORMAT csv,
+    HEADER true,
+    DELIMITER ','
+);
+
+COPY staging.alterations_2025
+FROM '/data/raw/alterations_2025.csv'
+WITH (
+    FORMAT csv,
+    HEADER true,
+    DELIMITER ','
+);

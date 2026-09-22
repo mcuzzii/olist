@@ -50,19 +50,15 @@ def download_ibge_datasets(
 
     for category, dataset in dataset_names.items():
 
-        output_path = output_dir / f"ibge_{category}.json"
+        output_path = output_dir / f"ibge_{category}.csv"
 
         response = requests.get(url_format.format(dataset=dataset), timeout=30)
         response.raise_for_status()
 
-        data = response.json()
+        df = pd.DataFrame(response.json(), dtype=str)
+        df.to_csv(output_path, index=False, encoding="utf-8")
 
-        output_path.write_text(
-            json.dumps(data, ensure_ascii=False, indent=2),
-            encoding="utf-8",
-        )
-
-        print(f"Saved {len(data)} records to {output_path}")
+        print(f"Saved {len(df)} records to {output_path}.")
 
 def download_alterations(
     url_format: str,
@@ -80,10 +76,10 @@ def download_alterations(
         response = requests.get(url_format.format(dataset=dataset), timeout=30)
         response.raise_for_status()
 
-        df = pd.read_excel(io.BytesIO(response.content))
+        df = pd.read_excel(io.BytesIO(response.content), dtype=str)
         df.to_csv(output_path, index=False, encoding="utf-8")
 
-        print(f"Saved to {output_path}.")
+        print(f"Saved {len(df)} records to {output_path}.")
 
 def main():
 
