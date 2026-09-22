@@ -5,8 +5,8 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1
 
 # Install Kaggle CLI
-RUN pip install --no-cache-dir kaggle
+RUN pip install --no-cache-dir kaggle requests pandas xlrd
 
 WORKDIR /app
 
-ENTRYPOINT ["kaggle"]
+COPY download.py .

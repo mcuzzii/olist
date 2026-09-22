@@ -32,21 +32,12 @@ services:
 
     environment:
       KAGGLE_API_TOKEN: ${KAGGLE_API_TOKEN:-}
+      KAGGLE_DATASET: ${KAGGLE_DATASET}
 
     volumes:
       - ./data/raw:/data/raw
 
-    command:
-      - datasets
-      - download
-      - "${KAGGLE_DATASET}"
-      - --path
-      - /data/raw
-      - --unzip
-
-    depends_on:
-      db:
-        condition: service_healthy
+    command: ["python", "download.py"]
   
 
   sql-runner:
