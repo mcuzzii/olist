@@ -76,3 +76,11 @@ CREATE TABLE staging.order_reviews (
     review_creation_date TIMESTAMP,
     review_answer_timestamp TIMESTAMP
 );
+
+CREATE TABLE analytics.zip_city_state (
+    zip_city_state_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    zip_code_prefix TEXT,
+    city TEXT,
+    city_normalized TEXT,
+    state TEXT
+)
