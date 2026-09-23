@@ -55,7 +55,16 @@ def download_ibge_datasets(
         response = requests.get(url_format.format(dataset=dataset), timeout=30)
         response.raise_for_status()
 
-        df = pd.DataFrame(response.json(), dtype=str)
+        data = response.json()
+
+        id_columns = [col for col in data[0] if col.endswith("-id")]
+
+        for row in data:
+            for col in id_columns:
+                if row[col] is not None:
+                    row[col] = str(row[col])
+
+        df = pd.DataFrame(data)
         df.to_csv(output_path, index=False, encoding="utf-8")
 
         print(f"Saved {len(df)} records to {output_path}.")

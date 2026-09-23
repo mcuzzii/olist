@@ -1,3 +1,2 @@
-SELECT DISTINCT
-    *
-FROM staging.alterations_2014
+SELECT DISTINCT *
+FROM staging.geolocation
