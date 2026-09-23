@@ -1,27 +1,11 @@
 import os
 import subprocess
-import io
-import json
+import csv
 from pathlib import Path
 import requests
 import pandas as pd
-
-IBGE_DATASETS = {
-    'subdistricts': 'subdistritos',
-    'districts': 'distritos',
-    'municipalities': 'municipios'
-}
-ALTERATIONS = [2014] + list(range(2017, 2026))
-
-IBGE_URL = "https://servicodados.ibge.gov.br/api/v1/localidades/{dataset}?view=nivelado"
-ALTERATIONS_URL = (
-    "https://geoftp.ibge.gov.br/organizacao_do_territorio/"
-    "estrutura_territorial/"
-    "alteracoes_toponimicas_municipais/"
-    "Alteracoes_Toponimicas_Municipais_{dataset}.xls"
-)
-
-RAW_DIR = "/data/raw"
+import xlrd
+from config import IBGE_DATASETS, ALTERATIONS, IBGE_API_ENDPOINT, ALTERATIONS_URL, RAW_DIR
 
 def download_kaggle_dataset():
     dataset = os.environ["KAGGLE_DATASET"]
@@ -39,8 +23,9 @@ def download_kaggle_dataset():
         check=True,
     )
 
-def download_ibge_datasets(
+def download_datasets(
     url_format: str,
+    prefix: str,
     dataset_names: list | dict,
     output_dir: Path
 ):
@@ -50,51 +35,66 @@ def download_ibge_datasets(
 
     for category, dataset in dataset_names.items():
 
-        output_path = output_dir / f"ibge_{category}.csv"
+        output_path = output_dir / f"{prefix}_{category}.csv"
 
         response = requests.get(url_format.format(dataset=dataset), timeout=30)
         response.raise_for_status()
 
-        data = response.json()
+        if prefix == 'ibge':
 
-        id_columns = [col for col in data[0] if col.endswith("-id")]
+            data = response.json()
 
-        for row in data:
-            for col in id_columns:
-                if row[col] is not None:
-                    row[col] = str(row[col])
+            for row in data:
+                for col in row:
+                    if row[col] is not None:
+                        row[col] = str(row[col])
 
-        df = pd.DataFrame(data)
-        df.to_csv(output_path, index=False, encoding="utf-8")
+            df = pd.DataFrame(data)
+            df.to_csv(output_path, index=False, encoding="utf-8")
 
-        print(f"Saved {len(df)} records to {output_path}.")
+            print(f"Saved {len(df)} records to {output_path}.")
 
-def download_alterations(
-    url_format: str,
-    dataset_names: list | dict,
-    output_dir: Path
-):
+        elif prefix == 'alterations':
 
-    if isinstance(dataset_names, list):
-        dataset_names = {v: v for v in dataset_names}
-    
-    for category, dataset in dataset_names.items():
-    
-        output_path = output_dir / f"alterations_{category}.csv"
+            book = xlrd.open_workbook(file_contents=response.content)
+            sheet = book.sheet_by_index(0)
 
-        response = requests.get(url_format.format(dataset=dataset), timeout=30)
-        response.raise_for_status()
+            with output_path.open("w", newline="", encoding="utf-8") as f:
+                writer = csv.writer(f)
 
-        df = pd.read_excel(io.BytesIO(response.content), dtype=str)
-        df.to_csv(output_path, index=False, encoding="utf-8")
+                rows = sheet.get_rows()
+                num_rows = 0
 
-        print(f"Saved {len(df)} records to {output_path}.")
+                for row in rows:
+                    values = []
+
+                    for cell in row:
+                        if cell.ctype == xlrd.XL_CELL_EMPTY:
+                            values.append("")
+                        elif cell.ctype == xlrd.XL_CELL_TEXT:
+                            values.append(cell.value)
+                        elif cell.ctype == xlrd.XL_CELL_NUMBER:
+                            values.append(str(cell.value))
+                        elif cell.ctype == xlrd.XL_CELL_DATE:
+                            values.append(
+                                xlrd.xldate_as_datetime(
+                                    cell.value,
+                                    book.datemode
+                                ).strftime("%d/%m/%Y")
+                            )
+                        else:
+                            values.append(str(cell.value))
+
+                    writer.writerow(values)
+                    num_rows += 1
+
+                print(f"Saved {num_rows - 1} records to {output_path}.")
 
 def main():
 
     download_kaggle_dataset()
-    download_ibge_datasets(IBGE_URL, IBGE_DATASETS, Path(RAW_DIR))
-    download_alterations(ALTERATIONS_URL, ALTERATIONS, Path(RAW_DIR))
+    download_datasets(IBGE_API_ENDPOINT, "ibge", IBGE_DATASETS, Path(RAW_DIR))
+    download_datasets(ALTERATIONS_URL, "alterations", ALTERATIONS, Path(RAW_DIR))
 
 if __name__ == "__main__":
     main()

@@ -4,9 +4,9 @@ services:
     image: postgres:17
 
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: olist
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
 
     ports:
       - "127.0.0.1:5432:5432"
@@ -32,7 +32,7 @@ services:
 
     environment:
       KAGGLE_API_TOKEN: ${KAGGLE_API_TOKEN:-}
-      KAGGLE_DATASET: ${KAGGLE_DATASET}
+      KAGGLE_DATASET: olistbr/brazilian-ecommerce
 
     volumes:
       - ./data/raw:/data/raw
@@ -47,9 +47,9 @@ services:
     environment:
       PGHOST: db
       PGPORT: 5432
-      PGDATABASE: ${POSTGRES_DB}
-      PGUSER: ${POSTGRES_USER}
-      PGPASSWORD: ${POSTGRES_PASSWORD}
+      PGDATABASE: olist
+      PGUSER: postgres
+      PGPASSWORD: ${PG_PASSWORD}
 
     volumes:
       - ./sql:/sql:ro

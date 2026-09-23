@@ -1,2 +1,2 @@
 SELECT DISTINCT *
-FROM staging.geolocation
+FROM staging.alterations_2025

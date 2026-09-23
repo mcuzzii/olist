@@ -9,4 +9,4 @@ RUN pip install --no-cache-dir kaggle requests pandas xlrd
 
 WORKDIR /app
 
-COPY download.py .
+COPY . .
