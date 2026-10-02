@@ -13,7 +13,7 @@ services:
 
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./data/raw:/data/raw:ro
+      - ./olist-data:/app/olist-data:ro
 
     healthcheck:
       test:
@@ -26,19 +26,28 @@ services:
       retries: 10
 
 
-  downloader:
+  data-loader:
     build:
-      context: ./docker/downloader
+      context: ./docker/data-loader
 
     environment:
       KAGGLE_API_TOKEN: ${KAGGLE_API_TOKEN:-}
       KAGGLE_DATASET: olistbr/brazilian-ecommerce
 
-    volumes:
-      - ./data/raw:/data/raw
+      PGHOST: db
+      PGPORT: 5432
+      PGDATABASE: olist
+      PGUSER: postgres
+      PGPASSWORD: ${PG_PASSWORD}
 
-    command: ["python", "download.py"]
-  
+    volumes:
+      - ./olist-data:/app/olist-data
+      - data_loader_venv:/app/.venv
+
+    depends_on:
+      db:
+        condition: service_healthy
+
 
   sql-runner:
     build:
@@ -52,8 +61,8 @@ services:
       PGPASSWORD: ${PG_PASSWORD}
 
     volumes:
-      - ./sql:/sql:ro
-      - ./data/raw:/data/raw:ro
+      - ./sql:/app/sql:ro
+      - ./olist-data:/app/olist-data:ro
 
     depends_on:
       db:
@@ -64,3 +73,4 @@ services:
 
 volumes:
   postgres_data:
+  data_loader_venv:

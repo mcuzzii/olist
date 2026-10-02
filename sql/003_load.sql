@@ -1,5 +1,5 @@
 COPY staging.customers
-FROM '/data/raw/olist_customers_dataset.csv'
+FROM '/app/olist-data/olist_customers_dataset.csv'
 WITH (
     FORMAT csv,
     HEADER true,
@@ -7,7 +7,7 @@ WITH (
 );
 
 COPY staging.geolocation
-FROM '/data/raw/olist_geolocation_dataset.csv'
+FROM '/app/olist-data/olist_geolocation_dataset.csv'
 WITH (
     FORMAT csv,
     HEADER true,
@@ -15,7 +15,7 @@ WITH (
 );
 
 COPY staging.order_items
-FROM '/data/raw/olist_order_items_dataset.csv'
+FROM '/app/olist-data/olist_order_items_dataset.csv'
 WITH (
     FORMAT csv,
     HEADER true,
@@ -23,7 +23,7 @@ WITH (
 );
 
 COPY staging.order_payments
-FROM '/data/raw/olist_order_payments_dataset.csv'
+FROM '/app/olist-data/olist_order_payments_dataset.csv'
 WITH (
     FORMAT csv,
     HEADER true,
@@ -31,7 +31,7 @@ WITH (
 );
 
 COPY staging.order_reviews
-FROM '/data/raw/olist_order_reviews_dataset.csv'
+FROM '/app/olist-data/olist_order_reviews_dataset.csv'
 WITH (
     FORMAT csv,
     HEADER true,
@@ -39,7 +39,7 @@ WITH (
 );
 
 COPY staging.orders
-FROM '/data/raw/olist_orders_dataset.csv'
+FROM '/app/olist-data/olist_orders_dataset.csv'
 WITH (
     FORMAT csv,
     HEADER true,
@@ -47,7 +47,7 @@ WITH (
 );
 
 COPY staging.products
-FROM '/data/raw/olist_products_dataset.csv'
+FROM '/app/olist-data/olist_products_dataset.csv'
 WITH (
     FORMAT csv,
     HEADER true,
@@ -55,7 +55,7 @@ WITH (
 );
 
 COPY staging.sellers
-FROM '/data/raw/olist_sellers_dataset.csv'
+FROM '/app/olist-data/olist_sellers_dataset.csv'
 WITH (
     FORMAT csv,
     HEADER true,
@@ -63,39 +63,7 @@ WITH (
 );
 
 COPY staging.product_names
-FROM '/data/raw/product_category_name_translation.csv'
-WITH (
-    FORMAT csv,
-    HEADER true,
-    DELIMITER ','
-);
-
-COPY staging.subdistricts
-FROM '/data/raw/ibge_subdistricts.csv'
-WITH (
-    FORMAT csv,
-    HEADER true,
-    DELIMITER ','
-);
-
-COPY staging.districts
-FROM '/data/raw/ibge_districts.csv'
-WITH (
-    FORMAT csv,
-    HEADER true,
-    DELIMITER ','
-);
-
-COPY staging.municipalities
-FROM '/data/raw/ibge_municipalities.csv'
-WITH (
-    FORMAT csv,
-    HEADER true,
-    DELIMITER ','
-);
-
-COPY staging.alterations_2025
-FROM '/data/raw/alterations_2025.csv'
+FROM '/app/olist-data/product_category_name_translation.csv'
 WITH (
     FORMAT csv,
     HEADER true,
