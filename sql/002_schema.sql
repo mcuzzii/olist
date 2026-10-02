@@ -76,3 +76,6 @@ CREATE TABLE staging.order_reviews (
     review_creation_date TIMESTAMP,
     review_answer_timestamp TIMESTAMP
 );
+
+ALTER TABLE public.correios_cep
+    SET SCHEMA staging;
