@@ -12,8 +12,7 @@ initialize: run
 			--unzip && \
 		edne-correios-loader load \
 			--database-url "postgresql://postgres:$${PG_PASSWORD}@db:5432/olist" \
-			--tables unified-cep-only \
-			--table-name cep_unificado=correios_cep'
+			--tables all'
 	docker compose exec sql-runner \
 		psql -v ON_ERROR_STOP=1 -f /app/sql/002_schema.sql
 	docker compose exec sql-runner \
