@@ -86,3 +86,98 @@ CROSS JOIN LATERAL (
     LIMIT 1
 ) m
 WHERE m.normalized_name NOT LIKE a.normalized_city
+
+
+
+
+
+
+WITH cep AS MATERIALIZED (
+    SELECT
+        to_char(c.cep_prefix, 'FM00000') AS cep_prefix,
+        m.loc_no AS municipio,
+        m.ufe_sg AS uf
+    FROM (
+        SELECT DISTINCT
+            loc_nu,
+            left(loc_cep_ini, 5)::integer AS cep_range_bottom,
+            left(loc_cep_fim, 5)::integer AS cep_range_top
+        FROM public.log_faixa_localidade
+        WHERE loc_tipo_faixa = 'T'
+    ) r
+    CROSS JOIN LATERAL generate_series(
+        r.cep_range_bottom,
+        r.cep_range_top
+    ) AS c(cep_prefix)
+    JOIN public.log_localidade m
+        ON r.loc_nu = m.loc_nu
+),
+cep_classified AS MATERIALIZED (
+    SELECT
+        cep_prefix,
+        COUNT(DISTINCT (municipio, uf)) AS municipality_count
+    FROM cep
+    GROUP BY cep_prefix
+),
+unique_cep AS (
+    SELECT
+        c.cep_prefix,
+        c.municipio,
+        c.uf
+    FROM cep c
+    JOIN cep_classified x
+        ON c.cep_prefix = x.cep_prefix
+    WHERE x.municipality_count = 1
+),
+ambiguous_cep AS (
+    SELECT
+        c.cep_prefix,
+        c.municipio,
+        c.uf,
+        lower(unaccent(c.municipio)) AS municipio_normalized
+    FROM cep c
+    JOIN cep_classified x
+        ON c.cep_prefix = x.cep_prefix
+    WHERE x.municipality_count > 1
+)
+SELECT
+    g.geolocation_zip_code_prefix,
+    g.geolocation_city,
+    g.geolocation_state,
+    g.municipio,
+    g.uf
+FROM (
+    SELECT DISTINCT
+        g.geolocation_zip_code_prefix,
+        g.geolocation_city,
+        g.geolocation_state,
+        COALESCE(u.municipio, a.municipio) AS municipio,
+        COALESCE(u.uf, a.uf) AS uf
+    FROM (
+        SELECT
+            geolocation_zip_code_prefix,
+            geolocation_city,
+            geolocation_state,
+            unaccent(geolocation_city) AS geolocation_city_normalized
+        FROM (
+            SELECT
+                zip_code_prefix AS geolocation_zip_code_prefix,
+                city AS geolocation_city,
+                state AS geolocation_state
+            FROM staging.customers
+            UNION
+            SELECT
+                seller_zip_code_prefix AS geolocation_zip_code_prefix,
+                seller_city AS geolocation_city,
+                seller_state AS geolocation_state
+            FROM staging.sellers
+        )
+    ) g
+    LEFT JOIN unique_cep u
+        ON g.geolocation_zip_code_prefix = u.cep_prefix
+    LEFT JOIN ambiguous_cep a
+        ON g.geolocation_zip_code_prefix = a.cep_prefix
+        AND g.geolocation_city_normalized = a.municipio_normalized
+        AND g.geolocation_state = a.uf
+) g
+WHERE g.municipio IS NULL;

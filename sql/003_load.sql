@@ -69,3 +69,35 @@ WITH (
     HEADER true,
     DELIMITER ','
 );
+
+COPY staging.subdistricts
+FROM '/app/olist-data/ibge_subdistricts.csv'
+WITH (
+    FORMAT csv,
+    HEADER true,
+    DELIMITER ','
+);
+
+COPY staging.districts
+FROM '/app/olist-data/ibge_districts.csv'
+WITH (
+    FORMAT csv,
+    HEADER true,
+    DELIMITER ','
+);
+
+COPY staging.municipalities
+FROM '/app/olist-data/ibge_municipalities.csv'
+WITH (
+    FORMAT csv,
+    HEADER true,
+    DELIMITER ','
+);
+
+COPY staging.alterations_2025
+FROM '/app/olist-data/alterations_2025.csv'
+WITH (
+    FORMAT csv,
+    HEADER true,
+    DELIMITER ','
+);

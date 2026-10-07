@@ -76,3 +76,78 @@ CREATE TABLE staging.order_reviews (
     review_creation_date TIMESTAMP,
     review_answer_timestamp TIMESTAMP
 );
+
+CREATE TABLE staging.subdistricts (
+    "subdistrito-id" TEXT,
+    "subdistrito-nome" TEXT,
+    "distrito-id" TEXT,
+    "distrito-nome" TEXT,
+    "municipio-id" TEXT,
+    "municipio-nome" TEXT,
+    "microrregiao-id" TEXT,
+    "microrregiao-nome" TEXT,
+    "mesorregiao-id" TEXT,
+    "mesorregiao-nome" TEXT,
+    "regiao-imediata-id" TEXT,
+    "regiao-imediata-nome" TEXT,
+    "regiao-intermediaria-id" TEXT,
+    "regiao-intermediaria-nome" TEXT,
+    "UF-id" TEXT,
+    "UF-sigla" TEXT,
+    "UF-nome" TEXT,
+    "regiao-id" TEXT,
+    "regiao-sigla" TEXT,
+    "regiao-nome" TEXT
+);
+
+CREATE TABLE staging.districts (
+    "distrito-id" TEXT,
+    "distrito-nome" TEXT,
+    "municipio-id" TEXT,
+    "municipio-nome" TEXT,
+    "microrregiao-id" TEXT,
+    "microrregiao-nome" TEXT,
+    "mesorregiao-id" TEXT,
+    "mesorregiao-nome" TEXT,
+    "regiao-imediata-id" TEXT,
+    "regiao-imediata-nome" TEXT,
+    "regiao-intermediaria-id" TEXT,
+    "regiao-intermediaria-nome" TEXT,
+    "UF-id" TEXT,
+    "UF-sigla" TEXT,
+    "UF-nome" TEXT,
+    "regiao-id" TEXT,
+    "regiao-sigla" TEXT,
+    "regiao-nome" TEXT
+);
+
+CREATE TABLE staging.municipalities (
+    "municipio-id" TEXT,
+    "municipio-nome" TEXT,
+    "microrregiao-id" TEXT,
+    "microrregiao-nome" TEXT,
+    "mesorregiao-id" TEXT,
+    "mesorregiao-nome" TEXT,
+    "regiao-imediata-id" TEXT,
+    "regiao-imediata-nome" TEXT,
+    "regiao-intermediaria-id" TEXT,
+    "regiao-intermediaria-nome" TEXT,
+    "UF-id" TEXT,
+    "UF-sigla" TEXT,
+    "UF-nome" TEXT,
+    "regiao-id" TEXT,
+    "regiao-sigla" TEXT,
+    "regiao-nome" TEXT
+);
+
+CREATE TABLE staging.alterations_2025 (
+    "UF" TEXT,
+    "MUN" TEXT,
+    "ALT" TEXT,
+    "NOME_ANTERIOR" TEXT,
+    "NOME_ATUAL" TEXT,
+    "JUSTIFICATIVA DO EVENTO/ATO" TEXT,
+    "LEI" TEXT,
+    "DATA_LEI" TEXT,
+    "DATA_OCORRÊNCIA" TEXT
+);

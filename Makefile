@@ -7,9 +7,7 @@ initialize: run
 	docker compose exec sql-runner \
 		psql -v ON_ERROR_STOP=1 -f /app/sql/001_reset.sql
 	docker compose run --rm data-loader sh -c '\
-		kaggle datasets download $${KAGGLE_DATASET} \
-			--path /app/olist-data \
-			--unzip && \
+		python /app/docker/data-loader/download.py && \
 		edne-correios-loader load \
 			--database-url "postgresql://postgres:$${PG_PASSWORD}@db:5432/olist" \
 			--tables all'

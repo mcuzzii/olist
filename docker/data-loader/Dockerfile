@@ -16,6 +16,9 @@ RUN uv venv /app/.venv
 RUN uv pip install --python /app/.venv/bin/python \
     kaggle \
     edne-correios-loader \
-    "psycopg[binary]"
+    "psycopg[binary]" \
+    pandas \
+    xlrd \
+    requests
 
-COPY . .
+COPY . /app/docker/data-loader

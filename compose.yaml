@@ -41,8 +41,9 @@ services:
       PGPASSWORD: ${PG_PASSWORD}
 
     volumes:
-      - ./olist-data:/app/olist-data
       - data_loader_venv:/app/.venv
+      - ./docker/data-loader:/app/docker/data-loader
+      - ./olist-data:/app/olist-data
 
     depends_on:
       db:
