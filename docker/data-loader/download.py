@@ -1,5 +1,5 @@
 import os
-import subprocess
+from kaggle.api.kaggle_api_extended import KaggleApi
 import csv
 from pathlib import Path
 import requests
@@ -7,22 +7,16 @@ import pandas as pd
 import xlrd
 from config import IBGE_DATASETS, ALTERATIONS, IBGE_API_ENDPOINT, ALTERATIONS_URL, RAW_DIR
 
-def download_kaggle_dataset(
-    output_dir: str
-):
+def download_kaggle_dataset(output_dir: str):
     dataset = os.environ["KAGGLE_DATASET"]
 
-    subprocess.run(
-        [
-            "kaggle",
-            "datasets",
-            "download",
-            dataset,
-            "--path",
-            output_dir,
-            "--unzip",
-        ],
-        check=True,
+    api = KaggleApi()
+    api.authenticate()
+
+    api.dataset_download_files(
+        dataset,
+        path=output_dir,
+        unzip=True
     )
 
 def download_datasets(
