@@ -10,7 +10,7 @@ initialize: run
 		uv sync && \
 		uv run /app/src/download.py && \
 		uv run edne-correios-loader load \
-			--database-url "postgresql://postgres:$${PG_PASSWORD}@db:5432/olist" \
+			--database-url "postgresql://$${PGUSER}:$${PGPASSWORD}@$${PGHOST}:$${PGPORT}/$${PGDATABASE}" \
 			--tables all'
 	docker compose exec sql-runner sh -c '\
 		psql -v ON_ERROR_STOP=1 -f /app/src/002_schema.sql && \
@@ -28,7 +28,7 @@ sqltest:
 		psql -P pager=off -v ON_ERROR_STOP=1 -f /app/src/test/scratch.sql
 
 pytest:
-	docker compose exec python-runner \
+	docker compose run --rm python-runner \
 		uv run /app/src/scratch.py
 
 stop:
