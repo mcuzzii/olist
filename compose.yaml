@@ -13,7 +13,7 @@ services:
 
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./olist-data:/app/olist-data:ro
+      - ./olist-data:/app/olist-data
 
     healthcheck:
       test:
@@ -26,9 +26,9 @@ services:
       retries: 10
 
 
-  data-loader:
+  python-runner:
     build:
-      context: ./docker/data-loader
+      context: ./python
 
     environment:
       KAGGLE_API_TOKEN: ${KAGGLE_API_TOKEN:-}
@@ -41,8 +41,8 @@ services:
       PGPASSWORD: ${PG_PASSWORD}
 
     volumes:
-      - data_loader_venv:/app/docker/data-loader/.venv
-      - ./docker/data-loader:/app/docker/data-loader
+      - data_loader_venv:/app/.venv
+      - ./python:/app
       - ./olist-data:/app/olist-data
 
     depends_on:
@@ -52,7 +52,7 @@ services:
 
   sql-runner:
     build:
-      context: ./docker/sql-runner
+      context: ./sql
 
     environment:
       PGHOST: db
@@ -62,8 +62,8 @@ services:
       PGPASSWORD: ${PG_PASSWORD}
 
     volumes:
-      - ./sql:/app/sql:ro
-      - ./olist-data:/app/olist-data:ro
+      - ./sql:/app
+      - ./olist-data:/app/olist-data
 
     depends_on:
       db:

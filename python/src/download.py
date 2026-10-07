@@ -19,6 +19,8 @@ def download_kaggle_dataset(output_dir: str):
         unzip=True
     )
 
+    print(f"Saved olist records to {output_dir}")
+
 def download_datasets(
     url_format: str,
     prefix: str,
