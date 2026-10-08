@@ -1,4 +1,4 @@
-.PHONY: run initialize pipeline execute sqltest pytest stop clean
+.PHONY: run initialize pipeline execute test stop clean
 
 run:
 	docker compose up -d db sql-runner
@@ -23,13 +23,9 @@ execute:
 	docker compose exec sql-runner \
 		psql -P pager=off -v ON_ERROR_STOP=1 -f /app/src/004_transform.sql
 
-sqltest:
+test:
 	docker compose exec sql-runner \
 		psql -P pager=off -v ON_ERROR_STOP=1 -f /app/src/test/scratch.sql
-
-pytest:
-	docker compose run --rm python-runner \
-		uv run /app/src/scratch.py
 
 stop:
 	docker compose down
