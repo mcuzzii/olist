@@ -13,7 +13,7 @@ services:
 
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./olist-data:/app/olist-data
+      - ./data:/app/data
 
     healthcheck:
       test:
@@ -43,7 +43,7 @@ services:
     volumes:
       - data_loader_venv:/app/.venv
       - ./python:/app
-      - ./olist-data:/app/olist-data
+      - ./data:/app/data
 
     depends_on:
       db:
@@ -63,7 +63,7 @@ services:
 
     volumes:
       - ./sql:/app
-      - ./olist-data:/app/olist-data
+      - ./data:/app/data
 
     depends_on:
       db:

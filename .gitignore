@@ -1,5 +1,5 @@
 .env
-olist-data/
+data/
 .DS_Store
 __pycache__/
 *.py[cod]

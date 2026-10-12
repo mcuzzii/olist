@@ -15,7 +15,7 @@ initialize: run
 	docker compose exec sql-runner sh -c '\
 		psql -v ON_ERROR_STOP=1 -f /app/src/002_schema.sql && \
 		psql -v ON_ERROR_STOP=1 -f /app/src/003_load.sql'
-	rm -rf ./olist-data
+	rm -rf ./data
 
 pipeline: initialize execute
 

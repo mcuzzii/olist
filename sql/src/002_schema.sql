@@ -151,3 +151,14 @@ CREATE TABLE staging.alterations_2025 (
     "DATA_LEI" TEXT,
     "DATA_OCORRÊNCIA" TEXT
 );
+
+CREATE TABLE staging.zip_codes (
+    cep TEXT,
+    type TEXT,
+    street TEXT,
+    neighborhood TEXT,
+    uf TEXT,
+    muni_key TEXT,
+    paf TEXT,
+    municipality TEXT
+)

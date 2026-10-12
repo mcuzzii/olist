@@ -7,3 +7,15 @@ CREATE SCHEMA analytics;
 CREATE EXTENSION IF NOT EXISTS unaccent;
 CREATE EXTENSION IF NOT EXISTS pg_trgm;
 CREATE EXTENSION IF NOT EXISTS fuzzystrmatch;
+
+CREATE FUNCTION normalized_levenshtein(a text, b text)
+RETURNS numeric
+LANGUAGE SQL
+IMMUTABLE
+AS $$
+    SELECT
+        1.0 - (
+            levenshtein(a, b)::numeric
+            / GREATEST(length(a), length(b))
+        );
+$$;
