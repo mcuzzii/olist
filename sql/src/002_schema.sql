@@ -140,7 +140,7 @@ CREATE TABLE staging.municipalities (
     "regiao-nome" TEXT
 );
 
-CREATE TABLE staging.alterations_2025 (
+CREATE TABLE staging.alterations (
     "UF" TEXT,
     "MUN" TEXT,
     "ALT" TEXT,
@@ -152,13 +152,17 @@ CREATE TABLE staging.alterations_2025 (
     "DATA_OCORRÊNCIA" TEXT
 );
 
-CREATE TABLE staging.zip_codes (
-    cep TEXT,
-    type TEXT,
-    street TEXT,
-    neighborhood TEXT,
-    uf TEXT,
-    muni_key TEXT,
-    paf TEXT,
-    municipality TEXT
-)
+CREATE TABLE staging.dated_zips (
+    NU_CEP TEXT,
+    ID_TIPO_LOGR TEXT,
+    TE_DESCRICAO_CEP TEXT,
+    NM_BAIRRO TEXT,
+    SG_UF TEXT,
+    ID_MUNI_PREV TEXT,
+    ID_PAF TEXT
+);
+
+CREATE TABLE staging.dated_municipalities (
+    ID_MUNIC TEXT,
+    NM_MUNIC TEXT
+);

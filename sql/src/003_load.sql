@@ -71,7 +71,7 @@ WITH (
 );
 
 COPY staging.subdistricts
-FROM '/app/data/ibge_subdistricts.csv'
+FROM '/app/data/subdistricts.csv'
 WITH (
     FORMAT csv,
     HEADER true,
@@ -79,7 +79,7 @@ WITH (
 );
 
 COPY staging.districts
-FROM '/app/data/ibge_districts.csv'
+FROM '/app/data/districts.csv'
 WITH (
     FORMAT csv,
     HEADER true,
@@ -87,23 +87,31 @@ WITH (
 );
 
 COPY staging.municipalities
-FROM '/app/data/ibge_municipalities.csv'
+FROM '/app/data/municipalities.csv'
 WITH (
     FORMAT csv,
     HEADER true,
     DELIMITER ','
 );
 
-COPY staging.alterations_2025
-FROM '/app/data/alterations_2025.csv'
+COPY staging.alterations
+FROM '/app/data/alterations.csv'
 WITH (
     FORMAT csv,
     HEADER true,
     DELIMITER ','
 );
 
-COPY staging.zip_codes
-FROM '/app/data/receita_federal_cep.csv'
+COPY staging.dated_zips
+FROM '/app/data/dated_zips.csv'
+WITH (
+    FORMAT csv,
+    HEADER true,
+    DELIMITER ','
+);
+
+COPY staging.dated_municipalities
+FROM '/app/data/dated_municipalities.csv'
 WITH (
     FORMAT csv,
     HEADER true,

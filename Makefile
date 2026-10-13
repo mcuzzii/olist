@@ -8,10 +8,7 @@ initialize: run
 		psql -v ON_ERROR_STOP=1 -f /app/src/001_reset.sql
 	docker compose run --rm python-runner sh -c '\
 		uv sync && \
-		uv run /app/src/download.py && \
-		uv run edne-correios-loader load \
-			--database-url "postgresql://$${PGUSER}:$${PGPASSWORD}@$${PGHOST}:$${PGPORT}/$${PGDATABASE}" \
-			--tables all'
+		uv run /app/src/download.py'
 	docker compose exec sql-runner sh -c '\
 		psql -v ON_ERROR_STOP=1 -f /app/src/002_schema.sql && \
 		psql -v ON_ERROR_STOP=1 -f /app/src/003_load.sql'
