@@ -1,7 +1,7 @@
 services:
 
   db:
-    image: postgres:17
+    image: postgis/postgis:17-3.5
 
     environment:
       POSTGRES_DB: olist
@@ -26,11 +26,14 @@ services:
       retries: 10
 
 
-  python-runner:
+  py-sql:
     build:
-      context: ./python
+      context: .
 
     environment:
+
+      UV_PROJECT_ENVIRONMENT: /app/py/.venv
+
       KAGGLE_API_TOKEN: ${KAGGLE_API_TOKEN:-}
       KAGGLE_DATASET: olistbr/brazilian-ecommerce
 
@@ -41,34 +44,15 @@ services:
       PGPASSWORD: ${PG_PASSWORD}
 
     volumes:
-      - data_loader_venv:/app/.venv
-      - ./python:/app
+      - data_loader_venv:/app/py/.venv
+      - ./py:/app/py
+      - ./sql:/app/sql
       - ./data:/app/data
 
     depends_on:
       db:
         condition: service_healthy
-
-
-  sql-runner:
-    build:
-      context: ./sql
-
-    environment:
-      PGHOST: db
-      PGPORT: 5432
-      PGDATABASE: olist
-      PGUSER: postgres
-      PGPASSWORD: ${PG_PASSWORD}
-
-    volumes:
-      - ./sql:/app
-      - ./data:/app/data
-
-    depends_on:
-      db:
-        condition: service_healthy
-
+    
     command: ["sleep", "infinity"]
 
 

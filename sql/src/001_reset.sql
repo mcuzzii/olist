@@ -7,6 +7,7 @@ CREATE SCHEMA analytics;
 CREATE EXTENSION IF NOT EXISTS unaccent;
 CREATE EXTENSION IF NOT EXISTS pg_trgm;
 CREATE EXTENSION IF NOT EXISTS fuzzystrmatch;
+CREATE EXTENSION IF NOT EXISTS postgis;
 
 CREATE FUNCTION normalized_levenshtein(a text, b text)
 RETURNS numeric
