@@ -2,6 +2,42 @@
 
 This project features a SQL pipeline and a Tableau dashboard.
 
+## Prerequisites
+
+* Docker Desktop
+* Tableau Desktop
+
+### PostgreSQL JDBC Driver
+
+Tableau requires a PostgreSQL JDBC driver to connect to the PostgreSQL database.
+
+Download PostgreSQL JDBC Driver version 42.7.14 from the official source, using the following commands:
+
+- **Windows:**
+```PowerShell as Administrator
+$driverDir = "$env:ProgramFiles\Tableau\Drivers"
+New-Item -ItemType Directory -Force -Path $driverDir | Out-Null
+Invoke-WebRequest `
+  -Uri "https://jdbc.postgresql.org/download/postgresql-42.7.14.jar" `
+  -OutFile "$driverDir\postgresql-42.7.14.jar"
+```
+- **MacOS:**
+```
+mkdir -p ~/Library/Tableau/Drivers && \
+curl -fL --retry 3 \
+  "https://jdbc.postgresql.org/download/postgresql-42.7.14.jar" \
+  -o ~/Library/Tableau/Drivers/postgresql-42.7.14.jar
+```
+- **Linux**
+```bash
+sudo mkdir -p /opt/tableau/tableau_driver/jdbc && \
+sudo curl -fL --retry 3 \
+  "https://jdbc.postgresql.org/download/postgresql-42.7.14.jar" \
+  -o /opt/tableau/tableau_driver/jdbc/postgresql-42.7.14.jar
+```
+
+After installing the driver, restart Tableau Desktop to ensure it recognizes the driver.
+
 ## Running the Pipeline
 
 The entire SQL pipeline can be run with the following command:
