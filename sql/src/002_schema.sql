@@ -153,16 +153,16 @@ CREATE TABLE staging.alterations (
 );
 
 CREATE TABLE staging.dated_zips (
-    NU_CEP TEXT,
-    ID_TIPO_LOGR TEXT,
-    TE_DESCRICAO_CEP TEXT,
-    NM_BAIRRO TEXT,
-    SG_UF TEXT,
-    ID_MUNI_PREV TEXT,
-    ID_PAF TEXT
+    "NU_CEP" TEXT,
+    "ID_TIPO_LOGR" TEXT,
+    "TE_DESCRICAO_CEP" TEXT,
+    "NM_BAIRRO" TEXT,
+    "SG_UF" TEXT,
+    "ID_MUNI_PREV" TEXT,
+    "ID_PAF" TEXT
 );
 
 CREATE TABLE staging.dated_municipalities (
-    ID_MUNIC TEXT,
-    NM_MUNIC TEXT
+    "ID_MUNIC" TEXT,
+    "NM_MUNIC" TEXT
 );
